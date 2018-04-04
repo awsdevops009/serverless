@@ -95,8 +95,13 @@ it represents.</p>
 <p>If you want a quick reference of all policies, checkout the <a class="reference external" href="../examples/2016-10-31/policy_templates/all_policy_templates.yaml">all_policy_templates.yaml</a> SAM template in examples
 folder.</p>
 <blockquote>
-<div>NOTE: If a policy template does not require a parameter, you should still specify the value to be an empty dictionary
-like this:</div></blockquote>
+<div><p>NOTE: If a policy template does not require a parameter, you should still specify the value to be an empty dictionary
+like this:</p>
+<div class="code yaml highlight-default"><div class="highlight"><pre><span></span><span class="n">Policies</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">CloudWatchPutMetricPolicy</span><span class="p">:</span> <span class="p">{}</span>
+</pre></div>
+</div>
+</div></blockquote>
 </div>
 </div>
 

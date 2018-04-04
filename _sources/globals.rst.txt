@@ -3,9 +3,9 @@ Globals Section
 
 .. contents::
 
-Lambda functions within a SAM template tend to have shared configuration such as Runtime, Memory, 
-VPC Settings, Environment Variables etc. Instead of duplicating this information in every function, you can 
-write them once in the  ``Globals`` section and let all Functions inhert it. 
+Resources in a SAM template tend to have shared configuration such as Runtime, Memory, 
+VPC Settings, Environment Variables, Cors, etc. Instead of duplicating this information in every resource, you can 
+write them once in the ``Globals`` section and let all resources inherit it. 
 
 Example:
 
@@ -39,27 +39,71 @@ Example:
 
 
 In the above example, both ``HelloWorldFunction`` and ``ThumbnailFunction`` will use nodejs6.10 runtime, 180 seconds 
-timeout and index.handler Handler. ``HelloWorldFunction`` adds MESSAGE environnment variable in addition to the 
+timeout and index.handler Handler. ``HelloWorldFunction`` adds MESSAGE environment variable in addition to the 
 inherited TABLE_NAME. ``ThumbnailFunction`` inherits all the Globals properties and adds an API Event source.
 
 Supported Resources
 -------------------
-Properties of ``AWS::Serverless::Function`` are only supported in Globals section presently. 
+Properties of ``AWS::Serverless::Function`` and ``AWS::Serverless::Api`` are only supported in Globals section 
+presently. 
 
 .. code:: yaml
 
   Globals:
     Function:
-      # Properties of AWS::Serverless::Function
+      # Some properties of AWS::Serverless::Function
+      Handler:
+      Runtime:
+      CodeUri:
+      DeadLetterQueue:
+      Description:
+      MemorySize:
+      Timeout:
+      VpcConfig:
+      Environment:
+      Tags:
+      Tracing:
+      KmsKeyArn:
+      AutoPublishAlias:
+      DeploymentPreference:
+    
+    Api:
+      # Some properties of AWS::Serverless::Api
+      # Also works with Implicit APIs
+      Name:
+      DefinitionUri:
+      CacheClusterEnabled:
+      CacheClusterSize:
+      Variables:
+      EndpointConfiguration:
+      MethodSettings:
+      BinaryMediaTypes:
+      Cors:
 
-Following properties of ``AWS::Serverless::Function`` are **not** supported in Globals section. We made the explicitly
-call to not support them because it either made the template hard to understand or opens scope for potential security 
+Implicit APIs
+~~~~~~~~~~~~~
+
+APIs created by SAM when you have an API declared in the ``Events`` section are called "Implicit APIs". You can use 
+Globals to override all properties of Implicit APIs as well. 
+
+Unsupported Properties
+~~~~~~~~~~~~~~~~~~~~~~
+
+Following properties are **not** supported in Globals section. We made the explicit
+call to not support them because it either made the template hard to understand or opened scope for potential security 
 issues.
+
+**AWS::Serverless::Function:**
 
 * Role
 * Policies
 * FunctionName
 * Events
+
+**AWS::Serverless::Api:**
+
+* StageName
+* DefinitionBody
 
 Overridable
 -----------
@@ -121,7 +165,7 @@ Environment variables of ``MyFunction`` will be set to ``{ TABLE_NAME: "resource
             TABLE_NAME: resource-table
             NEW_VAR: hello
 
-Lists are additivie
+Lists are additive
 ~~~~~~~~~~~~~~~~~~~
 *Also called as arrays*
 
@@ -148,7 +192,3 @@ SecurityGroupIds of VpcConfig will be set to ``["sg-first", "sg-123", "sg-456"]`
           SecurityGroupIds:
             - sg-first
  
-
-
-
-

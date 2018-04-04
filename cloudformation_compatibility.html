@@ -111,97 +111,6 @@
 </div>
 <div class="section" id="aws-serverless-function">
 <h2><a class="toc-backref" href="#id5">AWS::Serverless::Function</a><a class="headerlink" href="#aws-serverless-function" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="docutils">
-<colgroup>
-<col width="10%" />
-<col width="14%" />
-<col width="77%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Property Name</th>
-<th class="head">Intrinsic(s) Supported</th>
-<th class="head">Reasons</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Handler</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>Runtime</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>CodeUri (String - S3Uri)</td>
-<td>None</td>
-<td>SAM does not parse any Parameters, which is needed to support Ref</td>
-</tr>
-<tr class="row-odd"><td>CodeUri (Bucket &amp; Key)</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>FunctionName</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>Description</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>MemorySize</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>Timeout</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>Role</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>Policies</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>Environment</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>VpcConfig</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>Events</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>Tags</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>Tracing</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>KmsKeyArn</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>DeadLetterQueue</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td>DeploymentPreference</td>
-<td>All</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td>AutoPublishAlias</td>
-<td>Ref of a CloudFormation Parameter</td>
-<td>Alias resources created by SAM uses a LocicalId &lt;FunctionLogicalId+AliasName&gt;. So SAM either needs a string for alias name, or a Ref to template Parameter that SAM can resolve into a string.</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="events-properties">
 <h2><a class="toc-backref" href="#id6">Events Properties</a><a class="headerlink" href="#events-properties" title="Permalink to this headline">¶</a></h2>
@@ -481,6 +390,22 @@
 <td>All</td>
 <td>&#160;</td>
 </tr>
+<tr class="row-even"><td>EndpointConfiguration</td>
+<td>All</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>MethodSettings</td>
+<td>All</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>BinaryMediaTypes</td>
+<td>All</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Cors</td>
+<td>All</td>
+<td>&#160;</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -504,7 +429,15 @@
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td>ProvisionedThroughput</td>
-<td>None</td>
+<td>All</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>TableName</td>
+<td>All</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Tags</td>
+<td>All</td>
 <td>&#160;</td>
 </tr>
 </tbody>

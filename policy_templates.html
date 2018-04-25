@@ -87,12 +87,12 @@ MyTable:
 <p>Policy Templates are specified in <code class="docutils literal"><span class="pre">Policies</span></code> property of AWS::Serverless::Function resource. You can mix policy
 templates with AWS Managed Policies, custom managed policies or inline policy statements. Behind the scenes
 SAM will expand the policy template to a inline policy statement based on the definition listed in
-<a class="reference external" href="policy_templates_data/policy_templates.json">policy_templates.json</a> file.</p>
+<a class="reference external" href="https://github.com/awslabs/serverless-application-model/blob/develop/docs/policy_templates_data/policy_templates.json">policy_templates.json</a> file.</p>
 <p>Every policy template requires zero or more parameters, which are the resource that this policy is scoped to.
 Your template will fail to deploy if the value for a required parameter is not specified. You can consult the
-<a class="reference external" href="policy_templates_data/policy_templates.json">policy_templates.json</a> file for name of the policy templates, parameter names as well as the actual policy statement
+<a class="reference external" href="https://github.com/awslabs/serverless-application-model/blob/develop/docs/policy_templates_data/policy_templates.json">policy_templates.json</a> file for name of the policy templates, parameter names as well as the actual policy statement
 it represents.</p>
-<p>If you want a quick reference of all policies, checkout the <a class="reference external" href="../examples/2016-10-31/policy_templates/all_policy_templates.yaml">all_policy_templates.yaml</a> SAM template in examples
+<p>If you want a quick reference of all policies, checkout the <a class="reference external" href="https://github.com/awslabs/serverless-application-model/blob/develop/examples/2016-10-31/policy_templates/all_policy_templates.yaml">all_policy_templates.yaml</a> SAM template in examples
 folder.</p>
 <blockquote>
 <div><p>NOTE: If a policy template does not require a parameter, you should still specify the value to be an empty dictionary

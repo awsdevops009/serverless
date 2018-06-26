@@ -145,6 +145,40 @@ resource:</p>
         PreTraffic: !Ref PreTrafficLambdaFunction
         PostTraffic: !Ref PostTrafficLambdaFunction
 
+AliasErrorMetricGreaterThanZeroAlarm:
+  Type: &quot;AWS::CloudWatch::Alarm&quot;
+  Properties:
+    AlarmDescription: Lambda Function Error &gt; 0
+    ComparisonOperator: GreaterThanThreshold
+    Dimensions:
+      - Name: Resource
+        Value: !Sub &quot;${MyLambdaFunction}:live&quot;
+      - Name: FunctionName
+        Value: !Ref MyLambdaFunction
+    EvaluationPeriods: 2
+    MetricName: Errors
+    Namespace: AWS/Lambda
+    Period: 60
+    Statistic: Sum
+    Threshold: 0
+
+LatestVersionErrorMetricGreaterThanZeroAlarm:
+  Type: &quot;AWS::CloudWatch::Alarm&quot;
+  Properties:
+    AlarmDescription: Lambda Function Error &gt; 0
+    ComparisonOperator: GreaterThanThreshold
+    Dimensions:
+      - Name: Resource
+        Value: !Ref MyLambdaFunction.Version
+      - Name: FunctionName
+        Value: !Ref MyLambdaFunction
+    EvaluationPeriods: 2
+    MetricName: Errors
+    Namespace: AWS/Lambda
+    Period: 60
+    Statistic: Sum
+    Threshold: 0
+
 PreTrafficLambdaFunction:
   Type: AWS::Serverless::Function
   Properties:

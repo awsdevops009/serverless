@@ -57,13 +57,13 @@
 </li>
 </ul>
 </div>
-<p>Pushing to production can be nerve-racking even if you have 100% unit test coverage and state-of-art full CD system.
+<p>Pushing to production can be nerve-wracking even if you have 100% unit test coverage and a state-of-art full CD system.
 It is a good practice to expose your new code to a small percentage of production traffic, run tests, watch for alarms
 and dial up traffic as you gain more confidence. The goal is to minimize production impact as much as possible.</p>
 <p>To enable traffic shifting deployments for Lambda functions, we will use Lambda Aliases, which can balance incoming
 traffic between two different versions of your function, based on preassigned weights. Before deployment,
 the alias sends 100% of invokes to the version used in production. During deployment, we will upload the code to Lambda,
-publish a new version, send a small percentage of traffic to new version, monitor, and validate before shifting
+publish a new version, send a small percentage of traffic to the new version, monitor, and validate before shifting
 100% of traffic to the new version. You can do this manually by calling Lambda APIs or let AWS CodeDeploy automate
 it for you. CodeDeploy will shift traffic, monitor alarms, run validation logic and even trigger an automatic rollback
 if something goes wrong.</p>
@@ -80,22 +80,22 @@ when deployments don’t work as expected.</p>
 <div class="section" id="instant-traffic-shifting-using-lambda-aliases">
 <h2><a class="toc-backref" href="#id2">Instant traffic shifting using Lambda Aliases</a><a class="headerlink" href="#instant-traffic-shifting-using-lambda-aliases" title="Permalink to this headline">¶</a></h2>
 <p>Every Lambda function can have any number of Versions and Aliases
-associated with them. Versions are immutable snapshot of function
+associated with them. Versions are immutable snapshots of a function
 including code &amp; configuration. If you are familiar with git, they are
-similar to commits. It is a good practice in general to publish a new
+similar to commits. In general, it is a good practice to publish a new
 version every time you update your function code. When you invoke a
-specific version (using function name + version number combination) you
-are guaranteed to get the same code &amp; configuration irrespective of
+specific version (using the function name + version number combination) you
+are guaranteed to get the same code &amp; configuration irrespective of the
 state of the function. This protects you against accidentally updating
 production code.</p>
 <p>To effectively use the versions, you should create an Alias which is
 literally a pointer to a version. Aliases have a name and an ARN similar
-to the function and accepted by the Invoke APIs. If you invoke an Alias,
+to the function and are accepted by the Invoke APIs. If you invoke an Alias,
 Lambda will in turn invoke the version that the Alias is pointing to.</p>
 <p>In production, you will first update your function code, publish a new
-version, invoke the version directly to run tests against it, and after
-you are satisfied flip the Alias to point to the new version. Traffic
-will instantly shift from using your old version to the new version.</p>
+version, invoke the version directly to run tests against it, and, after
+you are satisfied, flip the Alias to point to the new version. Traffic
+will instantly shift from using your old version to using the new version.</p>
 <p>SAM provides a simple primitive to do this for you. Add the following
 property to your <code class="docutils literal"><span class="pre">AWS::Serverless::Function</span></code> resource:</p>
 <div class="code yaml highlight-default"><div class="highlight"><pre><span></span><span class="n">AutoPublishAlias</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">alias</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
@@ -104,10 +104,10 @@ property to your <code class="docutils literal"><span class="pre">AWS::Serverles
 <p>This will:</p>
 <ul class="simple">
 <li>Create an Alias with <code class="docutils literal"><span class="pre">&lt;alias-name&gt;</span></code></li>
-<li>Creates &amp; publishes a Lambda version with the latest code &amp; configuration
-derived from <code class="docutils literal"><span class="pre">CodeUri</span></code> property</li>
+<li>Create &amp; publish a Lambda version with the latest code &amp; configuration
+derived from the <code class="docutils literal"><span class="pre">CodeUri</span></code> property</li>
 <li>Point the Alias to the latest published version</li>
-<li>Point all event sources to the Alias &amp; not the function</li>
+<li>Point all event sources to the Alias &amp; not to the function</li>
 <li>When the <code class="docutils literal"><span class="pre">CodeUri</span></code> property of <code class="docutils literal"><span class="pre">AWS::Serverless::Function</span></code> changes,
 SAM will automatically publish a new version &amp; point the alias to the
 new version</li>
@@ -121,8 +121,8 @@ continue to point to old version that uses the old configurations.</div></blockq
 </div>
 <div class="section" id="traffic-shifting-using-codedeploy">
 <h2><a class="toc-backref" href="#id3">Traffic shifting using CodeDeploy</a><a class="headerlink" href="#traffic-shifting-using-codedeploy" title="Permalink to this headline">¶</a></h2>
-<p>For production deployments, you want a more controlled traffic shifting
-from old version to new version while monitoring alarms and triggering a
+<p>For production deployments, you may want more controlled traffic shifting
+from an old version to a new version which monitors alarms and triggers a
 rollback if necessary. CodeDeploy is an AWS service which can do this
 for you. It uses Lambda Alias’ ability to route a percentage of traffic
 to two different Lambda Versions. To use this feature, set the
@@ -211,10 +211,10 @@ CloudFormation, the following happens:</p>
 <ul class="simple">
 <li>CloudFormation publishes a new Lambda Version from the new code</li>
 <li>Since a deployment preference is set, CodeDeploy takes over the job of actually shifting traffic from old version to new version.</li>
-<li>Before traffic shifting starts, CodeDeploy will invoke the <strong>PreTraffic Hook</strong> Lambda function. This Lambda function must call back to CodeDeploy with an explicit status of Success or Failure, via the <a class="reference external" href="https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_PutLifecycleEventHookExecutionStatus.html">PutLifecycleEventHookExecutionStatus</a> API. On Failure, CodeDeploy will abort and report a failure back to CloudFormation. On Success, CodeDeploy will proceed with the specified traffic shifting. <a class="reference external" href="https://github.com/awslabs/serverless-application-model/blob/master/examples/2016-10-31/lambda_safe_deployments/preTrafficHook.js">Here</a> is a sample Lambda Hook function.</li>
+<li>Before traffic shifting starts, CodeDeploy will invoke the <strong>PreTraffic Hook</strong> Lambda function. This Lambda function must call back to CodeDeploy with an explicit status of Success or Failure, via the <a class="reference external" href="https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_PutLifecycleEventHookExecutionStatus.html">PutLifecycleEventHookExecutionStatus</a> API. On Failure, CodeDeploy will abort and report a failure back to CloudFormation. On Success, CodeDeploy will proceed with the specified traffic shifting. <a class="reference external" href="https://github.com/awslabs/serverless-application-model/blob/master/examples/2016-10-31/lambda_safe_deployments/src/preTrafficHook.js">Here</a> is a sample Lambda Hook function.</li>
 <li><code class="docutils literal"><span class="pre">Type:</span> <span class="pre">Linear10PercentEvery10Minutes</span></code> instructs CodeDeploy to start with 10% traffic on new version and add 10% every 10 minutes. It will complete traffic shifting in 100 minutes.</li>
 <li>During traffic shifting, if any of the CloudWatch Alarms go to <em>Alarm</em> state, CodeDeploy will immediately flip the Alias back to old version and report a failure to CloudFormation.</li>
-<li>After traffic shifting completes, CodeDeploy will invoke the <strong>PostTraffic Hook</strong> Lambda function. This is similar to PreTraffic Hook where the function must callback to CodeDeploy to report a Success or Failure. PostTraffic hook is a great place to run integration tests or other validation actions.</li>
+<li>After traffic shifting completes, CodeDeploy will invoke the <strong>PostTraffic Hook</strong> Lambda function. This is similar to PreTraffic Hook where the function must callback to CodeDeploy to report a Success or a Failure. PostTraffic hook is a great place to run integration tests or other validation actions.</li>
 <li>If everything went well, the Alias will be pointing to the new Lambda Version.</li>
 </ul>
 <p>NOTE: Verify that your AWS SDK version supports PutLifecycleEventHookExecutionStatus. For example, Python requires SDK version 1.4.8 or newer.</p>
@@ -238,8 +238,8 @@ available in CodeDeploy. You can pick the configuration that best suits your app
 <li><p class="first"><strong>LinearXPercentYMinutes</strong>: Traffic to new version will linearly increase in steps of X percentage every Y minutes.</p>
 <p>Ex: <code class="docutils literal"><span class="pre">Linear10PercentEvery10Minutes</span></code> will add 10 percentage of traffic every 10 minute to complete in 100 minutes.</p>
 </li>
-<li><p class="first"><strong>CanaryXPercentYMinutes</strong>: X percent of traffic will be routed to new Version once, and wait for Y minutes in this
-state before sending 100 percent of traffic to new version. Some people call this as Blue/Green deployment.</p>
+<li><p class="first"><strong>CanaryXPercentYMinutes</strong>: X percent of traffic will be routed to new version for Y minutes. After Y minutes,
+100 percent of traffic will be sent to new version. Some people call this as Blue/Green deployment.</p>
 <p>Ex: <code class="docutils literal"><span class="pre">Canary10Percent15Minutes</span></code> will send 10 percent traffic to new version and 15 minutes later complete deployment
 by sending all traffic to new version.</p>
 </li>
@@ -284,8 +284,8 @@ speaking hooks are executed once per DeploymentGroup, but in this case the Deplo
 Function). So you can customize the hooks logic to the function that is being deployed.</p>
 <blockquote>
 <div><p>NOTE: If the Hook functions are created by the same SAM template that is deployed, then make sure to turn off
-traffic shifting deployments for the hook functions. Also, the Role SAM generates for a Lambda Execution Role does not include all permissions needed for Per and Post hook functions, since it
-will not contain the necessary permissions to call the CodeDepoloy APIs or Invoke your new Lambda function for testing.
+traffic shifting deployments for the hook functions. Also, the Role SAM generates for a Lambda Execution Role does not include all permissions needed for Pre and Post hook functions, since it
+will not contain the necessary permissions to call the CodeDeploy APIs or Invoke your new Lambda function for testing.
 Instead, use the <a class="reference external" href="https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#resource-types">Policies</a> attribute to provide the CodeDeploy and Lambda permissions needed. The example also shows a Policy that provides access to the CodeDeploy resource that SAM automatically generates.
 Finally, use the <code class="docutils literal"><span class="pre">FunctionName</span></code> property to control the exact name of the Lambda function CloudFormation creates. Otherwise, CloudFormation will create your Lambda function with the Stack name and a unique ID added as part of the name.</p>
 </div></blockquote>

@@ -52,14 +52,15 @@
 <li><a class="reference internal" href="#s3" id="id6">S3</a></li>
 <li><a class="reference internal" href="#sns" id="id7">SNS</a></li>
 <li><a class="reference internal" href="#kinesis" id="id8">Kinesis</a></li>
-<li><a class="reference internal" href="#dynamodb" id="id9">DynamoDb</a></li>
-<li><a class="reference internal" href="#schedule" id="id10">Schedule</a></li>
-<li><a class="reference internal" href="#cloudwatchevent" id="id11">CloudWatchEvent</a></li>
+<li><a class="reference internal" href="#sqs" id="id9">SQS</a></li>
+<li><a class="reference internal" href="#dynamodb" id="id10">DynamoDb</a></li>
+<li><a class="reference internal" href="#schedule" id="id11">Schedule</a></li>
+<li><a class="reference internal" href="#cloudwatchevent" id="id12">CloudWatchEvent</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#aws-serverless-api" id="id12">AWS::Serverless::Api</a></li>
+<li><a class="reference internal" href="#aws-serverless-api" id="id13">AWS::Serverless::Api</a></li>
 </ul>
 </div>
 <p>When you create a Serverless Function or a Serverlesss API, SAM will create additional AWS resources wire everything up.
@@ -338,6 +339,42 @@ created outside of the stack, this bucket needs to be defined within the templat
 </tbody>
 </table>
 </div>
+<div class="section" id="sqs">
+<h4>SQS<a class="headerlink" href="#sqs" title="Permalink to this headline">¶</a></h4>
+<p>Example:</p>
+<div class="code yaml highlight-default"><div class="highlight"><pre><span></span><span class="n">MyFunction</span><span class="p">:</span>
+  <span class="n">Type</span><span class="p">:</span> <span class="n">AWS</span><span class="p">::</span><span class="n">Serverless</span><span class="p">::</span><span class="n">Function</span>
+  <span class="n">Properties</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="n">Events</span><span class="p">:</span>
+      <span class="n">MyTrigger</span><span class="p">:</span>
+        <span class="n">Type</span><span class="p">:</span> <span class="n">SQS</span>
+        <span class="n">Properties</span><span class="p">:</span>
+          <span class="n">Queue</span><span class="p">:</span> <span class="n">arn</span><span class="p">:</span><span class="n">aws</span><span class="p">:</span><span class="n">sqs</span><span class="p">:</span><span class="n">us</span><span class="o">-</span><span class="n">east</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">123456789012</span><span class="p">:</span><span class="n">my</span><span class="o">-</span><span class="n">queue</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Additional generated resources:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">CloudFormation Resource Type</th>
+<th class="head">Logical ID</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>AWS::Lambda::Permissions</td>
+<td>MyFunction<strong>MyTrigger</strong>Permission</td>
+</tr>
+<tr class="row-odd"><td>AWS::Lambda::EventSourceMapping</td>
+<td>MyFunction<strong>MyTrigger</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="dynamodb">
 <h4>DynamoDb<a class="headerlink" href="#dynamodb" title="Permalink to this headline">¶</a></h4>
 <p>Example:</p>
@@ -560,6 +597,7 @@ resource. SAM will add permission for these APIs to invoke the function.</p>
 <li class="toctree-l5"><a class="reference internal" href="#s3">S3</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#sns">SNS</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#kinesis">Kinesis</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#sqs">SQS</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#dynamodb">DynamoDb</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#schedule">Schedule</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#cloudwatchevent">CloudWatchEvent</a></li>

@@ -272,6 +272,7 @@ such generated resources, how they are named, and how to refer to them in your S
     <span class="n">AutoPublishAlias</span><span class="p">:</span> <span class="n">live</span>
     <span class="n">DeploymentPreference</span><span class="p">:</span>
       <span class="n">Type</span><span class="p">:</span> <span class="n">Linear10PercentEvery10Minutes</span>
+      <span class="n">Role</span><span class="p">:</span> <span class="s2">&quot;arn&quot;</span>
     <span class="o">...</span>
 </pre></div>
 </div>
@@ -298,6 +299,8 @@ such generated resources, how they are named, and how to refer to them in your S
 </tr>
 </tbody>
 </table>
+<blockquote>
+<div>NOTE: <code class="docutils literal"><span class="pre">AWS::IAM::Role</span></code> resources are only generated if no Role parameter is supplied for DeploymentPreference</div></blockquote>
 </div>
 <div class="section" id="with-events">
 <h3>With Events<a class="headerlink" href="#with-events" title="Permalink to this headline">¶</a></h3>

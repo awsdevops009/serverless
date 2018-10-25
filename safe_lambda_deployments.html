@@ -272,6 +272,9 @@ resource:</p>
         # Validation Lambda functions that are run before &amp; after traffic shifting
         PreTraffic: !Ref PreTrafficLambdaFunction
         PostTraffic: !Ref PostTrafficLambdaFunction
+      # Provide a custom role for CodeDeploy traffic shifting here, if you don&#39;t supply one
+      # SAM will create one for you with default permissions
+      Role: !Ref IAMRoleForCodeDeploy # Parameter example, you can pass an IAM ARN
 
 AliasErrorMetricGreaterThanZeroAlarm:
   Type: &quot;AWS::CloudWatch::Alarm&quot;
@@ -329,6 +332,7 @@ PreTrafficLambdaFunction:
     FunctionName: &#39;CodeDeployHook_preTrafficHook&#39;
     DeploymentPreference:
       Enabled: false
+      Role: &quot;&quot;
     Environment:
       Variables:
         CurrentVersion: !Ref MyLambdaFunction.Version
@@ -344,6 +348,7 @@ CloudFormation, the following happens:</p>
 <li>During traffic shifting, if any of the CloudWatch Alarms go to <em>Alarm</em> state, CodeDeploy will immediately flip the Alias back to old version and report a failure to CloudFormation.</li>
 <li>After traffic shifting completes, CodeDeploy will invoke the <strong>PostTraffic Hook</strong> Lambda function. This is similar to PreTraffic Hook where the function must callback to CodeDeploy to report a Success or a Failure. PostTraffic hook is a great place to run integration tests or other validation actions.</li>
 <li>If everything went well, the Alias will be pointing to the new Lambda Version.</li>
+<li>If you supply the “Role” argument to the DeploymentPreference, it will prevent SAM from creating a role and instead use the provided CodeDeploy role for traffic shifting</li>
 </ul>
 <p>NOTE: Verify that your AWS SDK version supports PutLifecycleEventHookExecutionStatus. For example, Python requires SDK version 1.4.8 or newer.</p>
 <div class="section" id="traffic-shifting-configurations">
@@ -449,7 +454,7 @@ Policies:
 SAM template belongs to its own Deployment Group.</li>
 <li>Adds <code class="docutils literal"><span class="pre">UpdatePolicy</span></code> on <code class="docutils literal"><span class="pre">AWS::Lambda::Alias</span></code> resource that is
 connected to the function’s Deployment Group resource.</li>
-<li>One <code class="docutils literal"><span class="pre">AWS::IAM::Role</span></code> called “CodeDeployServiceRole”.</li>
+<li>One <code class="docutils literal"><span class="pre">AWS::IAM::Role</span></code> called “CodeDeployServiceRole”, if no custom role is provided</li>
 </ul>
 <p>CodeDeploy assumes that there are no dependencies between Deployment Groups and hence will deploy them in parallel.
 Since every Lambda function is to its own CodeDeploy DeploymentGroup, they will be deployed in parallel.

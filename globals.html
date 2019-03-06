@@ -209,9 +209,10 @@ write them once in the <code class="docutils literal"><span class="pre">Globals<
 <span class="n">Resources</span><span class="p">:</span>
   <span class="n">HelloWorldFunction</span><span class="p">:</span>
     <span class="n">Type</span><span class="p">:</span> <span class="n">AWS</span><span class="p">::</span><span class="n">Serverless</span><span class="p">::</span><span class="n">Function</span>
-    <span class="n">Environment</span><span class="p">:</span>
-      <span class="n">Variables</span><span class="p">:</span>
-        <span class="n">MESSAGE</span><span class="p">:</span> <span class="s2">&quot;Hello From SAM&quot;</span>
+    <span class="n">Properties</span><span class="p">:</span>
+      <span class="n">Environment</span><span class="p">:</span>
+        <span class="n">Variables</span><span class="p">:</span>
+          <span class="n">MESSAGE</span><span class="p">:</span> <span class="s2">&quot;Hello From SAM&quot;</span>
 
   <span class="n">ThumbnailFunction</span><span class="p">:</span>
     <span class="n">Type</span><span class="p">:</span> <span class="n">AWS</span><span class="p">::</span><span class="n">Serverless</span><span class="p">::</span><span class="n">Function</span>
@@ -235,7 +236,6 @@ inherited TABLE_NAME. <code class="docutils literal"><span class="pre">Thumbnail
     <span class="c1"># Properties of AWS::Serverless::Function</span>
     <span class="n">Handler</span><span class="p">:</span>
     <span class="n">Runtime</span><span class="p">:</span>
-    <span class="c1"># Specifying CodeUri on Globals is not yet supported by &#39;CloudFormation package&#39; https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html</span>
     <span class="n">CodeUri</span><span class="p">:</span>
     <span class="n">DeadLetterQueue</span><span class="p">:</span>
     <span class="n">Description</span><span class="p">:</span>
@@ -249,6 +249,7 @@ inherited TABLE_NAME. <code class="docutils literal"><span class="pre">Thumbnail
     <span class="n">Layers</span><span class="p">:</span>
     <span class="n">AutoPublishAlias</span><span class="p">:</span>
     <span class="n">DeploymentPreference</span><span class="p">:</span>
+    <span class="n">PermissionsBoundary</span><span class="p">:</span>
 
   <span class="n">Api</span><span class="p">:</span>
     <span class="c1"># Properties of AWS::Serverless::Api</span>
@@ -261,7 +262,11 @@ inherited TABLE_NAME. <code class="docutils literal"><span class="pre">Thumbnail
     <span class="n">EndpointConfiguration</span><span class="p">:</span>
     <span class="n">MethodSettings</span><span class="p">:</span>
     <span class="n">BinaryMediaTypes</span><span class="p">:</span>
+    <span class="n">MinimumCompressionSize</span><span class="p">:</span>
     <span class="n">Cors</span><span class="p">:</span>
+    <span class="n">AccessLogSetting</span><span class="p">:</span>
+    <span class="n">CanarySetting</span><span class="p">:</span>
+    <span class="n">TracingEnabled</span><span class="p">:</span>
 
   <span class="n">SimpleTable</span><span class="p">:</span>
     <span class="c1"># Properties of AWS::Serverless::SimpleTable</span>

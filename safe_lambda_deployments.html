@@ -325,7 +325,7 @@ PreTrafficLambdaFunction:
           Action:
             - &quot;codedeploy:PutLifecycleEventHookExecutionStatus&quot;
           Resource:
-            !Sub &#39;arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*&#39;
+            !Sub &#39;arn:${AWS::Partition}:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*&#39;
       - Version: &quot;2012-10-17&quot;
         Statement:
         - Effect: &quot;Allow&quot;
